@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/setUpFragment">
+
+    <action
+        android:id="@+id/action_global_launch_tracking_fragment"
+        app:destination="@id/trackingFragment"
+        app:launchSingleTop="true" />
+
+    <fragment
+        android:id="@+id/setUpFragment"
+        android:name="com.sonu.runningtrackerapp.ui.fragments.SetUpFragment"
+        android:label="SetUpFragment">
+        <action
+            android:id="@+id/action_setUpFragment_to_runFragment2"
+            app:destination="@id/runFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/runFragment"
+        android:name="com.sonu.runningtrackerapp.ui.fragments.RunFragment"
+        android:label="RunFragment">
+        <action
+            android:id="@+id/action_runFragment2_to_trackingFragment"
+            app:destination="@id/trackingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.sonu.runningtrackerapp.ui.fragments.SettingsFragment"
+        android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/trackingFragment"
+        android:name="com.sonu.runningtrackerapp.ui.fragments.TrackingFragment"
+        android:label="TrackingFragment">
+        <action
+            android:id="@+id/action_trackingFragment_to_runFragment2"
+            app:destination="@id/runFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/statisticsFragment"
+        android:name="com.sonu.runningtrackerapp.ui.fragments.StatisticFragment"
+        android:label="StatisticFragment" />
+</navigation>
