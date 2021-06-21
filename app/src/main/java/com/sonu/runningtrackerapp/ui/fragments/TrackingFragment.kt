@@ -2,12 +2,15 @@ package com.sonu.runningtrackerapp.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import android.view.*
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.sonu.runningtrackerapp.R
 import com.sonu.runningtrackerapp.services.Polyline
 import com.sonu.runningtrackerapp.services.TrackingService
@@ -28,6 +31,7 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
     private var isTracking = false
     private var pathPoints = mutableListOf<Polyline>()
     private var currentTimeInMills = 0L
+    private var menu: Menu? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -41,6 +45,57 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
         }
         subscribeObservers()
 
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        setHasOptionsMenu(true)
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.toolbar_tracking_menu, menu)
+        this.menu = menu
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        if (currentTimeInMills > 0L) {
+            this.menu?.getItem(0)?.isVisible = true
+        }
+    }
+
+    private fun showTrackingCancelledDialog() {
+        val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogTheme)
+            .setTitle("Cancel the run?")
+            .setMessage("Are you sure cancel the all run and delete all data?")
+            .setPositiveButton("Yes") { _, _ ->
+                stopRun()
+            }
+            .setNegativeButton("No") { dialogInterface, _ ->
+                dialogInterface.cancel()
+            }
+            .create()
+        dialog.show()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.miCancelTracking -> {
+                showTrackingCancelledDialog()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+
+    }
+
+    private fun stopRun() {
+        sendCommandToService(ACTION_STOP_SERVICE)
+        findNavController().navigate(R.id.action_trackingFragment_to_runFragment2)
     }
 
     private fun subscribeObservers() {
@@ -61,6 +116,7 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
 
     private fun toggleRun() {
         if (isTracking) {
+            menu?.getItem(0)?.isVisible = true
             sendCommandToService(ACTION_PAUSE_SERVICE)
         } else {
             sendCommandToService(ACTION_START_RESUME_SERVICE)
@@ -68,7 +124,6 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
     }
 
     private fun updateTracking(isTracking: Boolean) {
-        Timber.d("update tracking istraking " + isTracking)
         this.isTracking = isTracking
 
         if (!isTracking) {
