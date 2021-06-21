@@ -32,4 +32,5 @@ object Constant {
     const val TIMER_UPDATE_CURRENT = 50L
 
     const val ACTION_DECLARED_FIELD = "mActions"
+
 }

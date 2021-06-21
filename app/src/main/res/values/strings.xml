@@ -9,4 +9,7 @@
     </string-array>
 
     <string name="google_maps_key">AIzaSyBfmYG16Nrl399gh-ZG9qKMsPc3YsEhUMU</string>
+    <string name="startJob">Start</string>
+    <string name="stopJob">Stop</string>
+    <string name="pauseJob">Pause</string>
 </resources>

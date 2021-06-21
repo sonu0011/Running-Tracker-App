@@ -10,7 +10,7 @@ data class Run(
     var timeStamp: Long = 0L,
     var distanceInMeters: Int = 0,
     var avgSpeedInKmPh: Float = 0f,
-    var timeInMills: Int = 0,
+    var timeInMills: Long = 0L,
     var caloriesBurned: Int = 0
 ) {
 
