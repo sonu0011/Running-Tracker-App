@@ -21,6 +21,10 @@ object Constant {
     const val NOTIFICATION_ID = 1
     const val NOTIFICATION_TITLE = "Running App"
 
+    const val SHARED_PREF_NAME = "running_shared_pref"
+    const val KEY_NAME = "KEY_NAME"
+    const val KEY_WEIGHT = "KEY_WEIGHT"
+    const val KEY_FIRST_APP_LAUNCH = "KEY_FIRST_APP_LAUNCH"
 
     const val LOCATION_UPDATE_INTERVAL = 5000L
     const val FASTEST_LOCATION_INTERVAL = 2000L

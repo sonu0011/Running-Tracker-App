@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLngBounds
@@ -15,6 +16,7 @@ import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.sonu.runningtrackerapp.R
+import com.sonu.runningtrackerapp.adapters.RunAdapter
 import com.sonu.runningtrackerapp.db.entities.Run
 import com.sonu.runningtrackerapp.services.Polyline
 import com.sonu.runningtrackerapp.services.TrackingService
@@ -28,6 +30,7 @@ import com.sonu.runningtrackerapp.util.Constant.POLYLINE_COLOR
 import com.sonu.runningtrackerapp.util.Constant.POLYLINE_WIDTH
 import com.sonu.runningtrackerapp.util.TrackingUtility
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_run.*
 import kotlinx.android.synthetic.main.fragment_tracking.*
 import timber.log.Timber
 import java.util.*
@@ -47,6 +50,7 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mapView.onCreate(savedInstanceState)
+
         btnFinishRun.setOnClickListener {
             zoomToSeeWholeTrack()
             endRunAndSaveToDb()
@@ -61,6 +65,7 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
         }
         subscribeObservers()
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -110,7 +115,7 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
 
     private fun stopRun() {
         sendCommandToService(ACTION_STOP_SERVICE)
-       // findNavController().navigate(R.id.action_trackingFragment_to_runFragment2)
+        findNavController().navigate(R.id.action_trackingFragment_to_runFragment2)
     }
 
     private fun subscribeObservers() {
@@ -127,6 +132,7 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
             val formattedTime = TrackingUtility.getFormattedStopWatchTime(currentTimeInMills, true)
             tvTimer.text = formattedTime
         })
+
     }
 
     private fun toggleRun() {
