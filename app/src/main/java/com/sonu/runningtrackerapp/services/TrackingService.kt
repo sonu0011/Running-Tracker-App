@@ -234,10 +234,10 @@ class TrackingService : LifecycleService() {
     }
 
     private fun postInitialValues() {
-        isTracking.postValue(false)
-        pathPoints.postValue(mutableListOf(mutableListOf()))
-        timeRunsInSeconds.postValue(0L)
-        timeRunsInMilliseconds.postValue(0L)
+        isTracking.value = false
+        pathPoints.value = mutableListOf(mutableListOf())
+        timeRunsInSeconds.value = 0L
+        timeRunsInMilliseconds.value = 0L
     }
 
     private fun addEmptyPolyLine() = pathPoints.value?.apply {
